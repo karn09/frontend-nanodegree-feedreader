@@ -61,15 +61,22 @@ $(function() {
           * clicked and does it hide when clicked again.
           */
         it('changes visibility when clicked', function() {
-            var button = document.getElementsByClassName('menu-icon-link')
+            var button = document.getElementsByClassName('menu-icon-link');
             var clickEvent = new MouseEvent('click');
-            var body = document.getElementsByTagName('body')
+            var body = document.getElementsByTagName('body');
 
-            button[0].dispatchEvent(clickEvent)
-            expect(body[0].className).toBe('')
-            button[0].dispatchEvent(clickEvent)
-            expect(body[0].className).toBe('menu-hidden')
+            button[0].dispatchEvent(clickEvent);
+            expect(body[0].className).toBe('');
+            button[0].dispatchEvent(clickEvent);
+            expect(body[0].className).toBe('menu-hidden');
 
+        })
+        /* Test ensures that feed list buttons will 
+         * load new entries when clicked.
+         */
+        it('feedlist changes entries when clicked', function() {
+            var button = document.getElementsByClassName('menu-icon-link');
+            var clickEvent = new MouseEvent('click');
         })
     })
     /* "Initial Entries" */
