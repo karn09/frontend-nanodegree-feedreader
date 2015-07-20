@@ -77,6 +77,11 @@ $(function() {
         it('feedlist changes entries when clicked', function() {
             var button = document.getElementsByClassName('menu-icon-link');
             var clickEvent = new MouseEvent('click');
+            var button[0].dispatchEvent(clickEvent);
+            // var entries_first = document.getElementsByClassName('entry');
+            // var button[1].dispatchEvent(clickEvent)
+            // //expect(entries_first).not.toEqual(document.getElementsByClassName('entry'))
+
         })
     })
     /* "Initial Entries" */
