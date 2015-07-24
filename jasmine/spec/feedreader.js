@@ -1,3 +1,14 @@
+// Hello.
+//
+// This is JSHint, a tool that helps to detect errors and potential
+// problems in your JavaScript code.
+//
+// To start, simply enter some JavaScript anywhere on this page. Your
+// report will appear on the right side.
+//
+// Additionally, you can toggle specific options in the Configure
+// menu.
+
 /* feedreader.js
  *
  * This is the spec file that Jasmine will read and contains
@@ -28,20 +39,22 @@ $(function() {
 
         it('URLs are defined', function() {
             allFeeds.forEach(function (feed) {
-                expect(feed['url']).toBeDefined();
-                expect(feed['url'].length).not.toBe(0);
-            })
-        })
+                expect(feed.url).toBeDefined();
+                expect(feed.url.length).not.toBe(0);
+                expect(feed.url).toMatch(/^http(s?)\:\/\//);
+            });
+        });
         /* Test loops through each feed
          * in the allFeeds object and ensures it has a name defined
          * and that the name is not empty.
          */
          it('names are defined', function() {
             allFeeds.forEach(function (feed) {
-                expect(feed['name']).toBeDefined();
-                expect(feed['name'].length).not.toBe(0);
-            })
-         })
+                expect(feed.name).toBeDefined();
+                expect(typeof feed.name).toBe('string');
+                expect(feed.name.length).not.toBe(0);
+            });
+         });
     });
 
 
@@ -52,9 +65,9 @@ $(function() {
          * hidden by default. 
          */
         it('is hidden by default', function() {
-            var body = document.getElementsByTagName('body')
-            expect(body[0].className).toBe('menu-hidden')
-        })
+            var body = document.getElementsByTagName('body');
+            expect(body[0].className).toBe('menu-hidden');
+        });
          /* Test ensures that the menu changes
           * visibility when the menu icon is clicked. This test
           * has two expectations: does the menu display when
@@ -69,8 +82,7 @@ $(function() {
             expect(body[0].className).toBe('');
             button[0].dispatchEvent(clickEvent);
             expect(body[0].className).toBe('menu-hidden');
-
-        })
+        });
         /* Test ensures that feed list buttons will 
          * load new entries when clicked.
          */
@@ -83,7 +95,7 @@ $(function() {
         //     // //expect(entries_first).not.toEqual(document.getElementsByClassName('entry'))
 
         // })
-    })
+    });
     /* "Initial Entries" */
     describe('Initial Entries', function() {
         /* This test ensures that when the loadFeed
@@ -94,25 +106,32 @@ $(function() {
          */
          beforeEach(function(done) {
             loadFeed(0, done);
-         })
+         });
 
          it('are contained within feed on loadFeed', function() {
-            expect(document.querySelectorAll('article.entry').length).not.toBe(0);
-         })
-
-    })
+            expect(document.querySelectorAll('article.entry').length).toBeGreaterThan(0);
+         });
+    });
     /* "New Feed Selection" */
     describe('New Feed Selection', function() {
         /* Test ensures that when a new feed is loaded
          * by the loadFeed function the content actually changes.
          * loadFeed() is asynchronous.
          */
-         var entries = document.querySelectorAll('article.entry');
+         var contentBefore, contentAfter;
+         //var entries = document.querySelectorAll('article.entry');
          beforeEach(function(done) {
-            loadFeed(2, done);
-         })
-         it('changes content when feed is loaded', function() {
-            expect(entries).not.toEqual(document.querySelectorAll('article.entry'))
-         })
-    })
+            loadFeed(0, function() {
+                contentBefore = $('article.entry').html();
+                done();
+            });
+         });
+         it('changes content when feed is loaded', function(done) {
+            loadFeed(1, function() {
+                contentAfter = $('article.entry').html();
+                expect(contentBefore).not.toBe(contentAfter);
+                done();    
+            });
+         });
+    });
 }());
